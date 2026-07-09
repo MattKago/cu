@@ -18,7 +18,10 @@ export default async function PipelinePage() {
     <main className="flex flex-1 flex-col gap-6 px-6 py-10">
       <div className="flex items-center justify-between">
         <h1 className="text-2xl font-semibold">Pipeline</h1>
-        <Link href="/" className="text-sm underline">
+        <Link
+          href="/"
+          className="rounded border border-zinc-300 px-3 py-1.5 text-sm font-medium transition-colors hover:bg-zinc-100 dark:border-zinc-700 dark:hover:bg-zinc-800"
+        >
           ← Leads table
         </Link>
       </div>

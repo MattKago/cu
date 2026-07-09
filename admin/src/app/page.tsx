@@ -25,9 +25,19 @@ export default async function Home() {
     <main className="flex flex-1 flex-col gap-6 px-6 py-10">
       <div className="flex items-center justify-between">
         <h1 className="text-2xl font-semibold">Leads</h1>
-        <div className="flex gap-4 text-sm underline">
-          <Link href="/calendar">Calendar blocking →</Link>
-          <Link href="/pipeline">Pipeline board →</Link>
+        <div className="flex gap-3 text-sm">
+          <Link
+            href="/calendar"
+            className="rounded border border-zinc-300 px-3 py-1.5 font-medium transition-colors hover:bg-zinc-100 dark:border-zinc-700 dark:hover:bg-zinc-800"
+          >
+            Calendar blocking →
+          </Link>
+          <Link
+            href="/pipeline"
+            className="rounded border border-zinc-300 px-3 py-1.5 font-medium transition-colors hover:bg-zinc-100 dark:border-zinc-700 dark:hover:bg-zinc-800"
+          >
+            Pipeline board →
+          </Link>
         </div>
       </div>
 

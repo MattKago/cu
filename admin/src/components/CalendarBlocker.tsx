@@ -29,7 +29,7 @@ function buildDays() {
 }
 
 function formatDay(date: Date) {
-  return date.toLocaleDateString(undefined, {
+  return date.toLocaleDateString("en-US", {
     weekday: "short",
     month: "short",
     day: "numeric",
@@ -37,7 +37,7 @@ function formatDay(date: Date) {
 }
 
 function formatTime(date: Date) {
-  return date.toLocaleTimeString(undefined, {
+  return date.toLocaleTimeString("en-US", {
     hour: "numeric",
     minute: "2-digit",
   });
