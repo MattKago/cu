@@ -2,6 +2,7 @@ import Link from "next/link";
 import { getSupabaseAdmin } from "@/lib/supabase-admin";
 import type { Lead } from "@/lib/types";
 import PipelineBoard from "@/components/PipelineBoard";
+import { SETTINGS_ID } from "@/lib/settings";
 
 export const dynamic = "force-dynamic";
 
@@ -9,6 +10,7 @@ export default async function PipelinePage() {
   const { data: leads, error } = await getSupabaseAdmin()
     .from("leads")
     .select("*")
+    .neq("id", SETTINGS_ID)
     .order("created_at", { ascending: false })
     .returns<Lead[]>();
 

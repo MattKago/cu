@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import { supabase } from "@/lib/supabase";
 
@@ -52,6 +52,15 @@ export default function BookingPicker() {
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [confirmed, setConfirmed] = useState(false);
+  const [blockedSlots, setBlockedSlots] = useState<Set<string>>(new Set());
+
+  useEffect(() => {
+    supabase.rpc("get_blocked_slots").then(({ data }) => {
+      if (Array.isArray(data)) {
+        setBlockedSlots(new Set(data as string[]));
+      }
+    });
+  }, []);
 
   if (!leadId) {
     return <p className="text-sm text-red-600">Missing lead id in the URL.</p>;
@@ -93,11 +102,18 @@ export default function BookingPicker() {
       <h1 className="text-center text-2xl font-semibold">Pick a time</h1>
 
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-4 lg:grid-cols-7">
-        {days.map((day) => (
+        {days.map((day) => {
+          const availableSlots = day.slots.filter(
+            (slot) => !blockedSlots.has(slot.toISOString())
+          );
+          return (
           <div key={day.date.toISOString()} className="flex flex-col gap-2">
             <p className="text-sm font-medium">{formatDay(day.date)}</p>
             <div className="flex flex-col gap-1">
-              {day.slots.map((slot) => {
+              {availableSlots.length === 0 && (
+                <p className="text-xs text-zinc-400">No times</p>
+              )}
+              {availableSlots.map((slot) => {
                 const isSelected =
                   selectedSlot?.getTime() === slot.getTime();
                 return (
@@ -117,7 +133,8 @@ export default function BookingPicker() {
               })}
             </div>
           </div>
-        ))}
+          );
+        })}
       </div>
 
       {error && <p className="text-sm text-red-600">{error}</p>}
